@@ -29,6 +29,7 @@ const normalizeUserSummary = (user: any): UserSummary => ({
   fullName: user?.fullName ?? user?.username ?? "",
   avatarUrl: toAbsoluteUrl(user?.avatarUrl ?? user?.avatar),
   bio: user?.bio ?? "",
+  website: user?.website ?? "",
 });
 
 const normalizeAuthenticatedUser = (user: any) => ({

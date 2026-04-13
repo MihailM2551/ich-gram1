@@ -17,6 +17,7 @@ const mapPublicUser = (user, currentUserId) => {
     email: user.email,
     avatar: user.avatar,
     bio: user.bio || '',
+    website: user.website || '',
     followers,
     following,
     followersCount: followers.length,
@@ -32,7 +33,7 @@ const getProfile = async (req, res) => {
     const rawUsername = decodeURIComponent(String(req.params.username || '')).trim();
 
     if (!rawUsername) {
-      return res.status(404).json({ message: 'Profilul nu a fost găsit' });
+      return res.status(404).json({ message: 'Profile not found' });
     }
 
     const profileUser = await User.findOne({
@@ -40,11 +41,11 @@ const getProfile = async (req, res) => {
     });
 
     if (!profileUser) {
-      return res.status(404).json({ message: 'Profilul nu a fost găsit' });
+      return res.status(404).json({ message: 'Profile not found' });
     }
 
     const posts = await Post.find({ user: profileUser._id })
-      .populate('user', 'username fullName avatar bio')
+      .populate('user', 'username fullName avatar bio website')
       .sort({ createdAt: -1 });
 
     return res.json({
@@ -52,7 +53,7 @@ const getProfile = async (req, res) => {
       posts,
     });
   } catch (_error) {
-    return res.status(500).json({ message: 'Eroare la încărcarea profilului' });
+    return res.status(500).json({ message: 'Failed to load profile' });
   }
 };
 
@@ -62,11 +63,11 @@ const toggleFollow = async (req, res) => {
     const targetUser = await User.findById(req.params.userId);
 
     if (!currentUser || !targetUser) {
-      return res.status(404).json({ message: 'Utilizatorul nu a fost găsit' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     if (String(currentUser._id) === String(targetUser._id)) {
-      return res.status(400).json({ message: 'Nu te poți urmări pe tine' });
+      return res.status(400).json({ message: 'You cannot follow yourself' });
     }
 
     const isFollowing = currentUser.following.some((id) => String(id) === String(targetUser._id));
@@ -93,7 +94,7 @@ const toggleFollow = async (req, res) => {
 
     return res.json(mapPublicUser(targetUser, currentUser._id));
   } catch (_error) {
-    return res.status(500).json({ message: 'Eroare la actualizarea follow-ului' });
+    return res.status(500).json({ message: 'Failed to update follow state' });
   }
 };
 
@@ -102,17 +103,16 @@ const updateMe = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (!user) {
-      return res.status(404).json({ message: 'Utilizatorul nu a fost găsit' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     const nextUsername = req.body.username?.trim().toLowerCase();
     const nextFullName = req.body.fullName?.trim();
-    const nextBio = req.body.bio;
 
     if (nextUsername && nextUsername !== user.username) {
       const existing = await User.findOne({ username: nextUsername, _id: { $ne: user._id } });
       if (existing) {
-        return res.status(400).json({ message: 'Username-ul este deja folosit' });
+        return res.status(400).json({ message: 'Username is already taken' });
       }
       user.username = nextUsername;
     }
@@ -121,8 +121,12 @@ const updateMe = async (req, res) => {
       user.fullName = nextFullName || user.username;
     }
 
-    if (typeof nextBio === 'string') {
-      user.bio = nextBio;
+    if (typeof req.body.bio === 'string') {
+      user.bio = req.body.bio.trim();
+    }
+
+    if (typeof req.body.website === 'string') {
+      user.website = req.body.website.trim();
     }
 
     if (req.file) {
@@ -132,7 +136,7 @@ const updateMe = async (req, res) => {
     await user.save();
     return res.json(mapPublicUser(user, user._id));
   } catch (_error) {
-    return res.status(500).json({ message: 'Profilul nu a putut fi actualizat' });
+    return res.status(500).json({ message: 'Profile could not be updated' });
   }
 };
 

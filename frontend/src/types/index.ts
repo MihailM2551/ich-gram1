@@ -13,6 +13,7 @@ export interface UserSummary {
   fullName: string;
   avatarUrl?: string;
   bio?: string;
+  website?: string;
 }
 
 export interface AuthenticatedUser extends UserSummary {

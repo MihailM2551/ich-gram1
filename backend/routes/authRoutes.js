@@ -12,6 +12,7 @@ const toPublicUser = (user) => ({
   email: user.email,
   avatar: user.avatar,
   bio: user.bio,
+  website: user.website || '',
   followers: user.followers,
   following: user.following,
   createdAt: user.createdAt,
@@ -35,7 +36,7 @@ router.post('/register', async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
-        message: 'Acest e-mail sau nume de utilizator este deja folosit.',
+        message: 'This email or username is already in use.',
       });
     }
 
@@ -69,12 +70,12 @@ router.post('/login', async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ message: 'Date invalide' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ message: 'Date invalide' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });

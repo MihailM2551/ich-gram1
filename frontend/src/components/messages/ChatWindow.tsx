@@ -119,7 +119,7 @@ export const ChatWindow = ({
                     className={`max-w-[70%] rounded-[22px] px-4 py-3 text-[14px] leading-6 shadow-sm ${
                       mine
                         ? "bg-[linear-gradient(135deg,#2b5cff_0%,#7d12ff_100%)] text-white"
-                        : "bg-[#efefef] text-[#262626]"
+                        : "border border-[#d6d6d6] bg-[#e2e2e2] text-[#262626]"
                     }`}
                   >
                     {message.text}

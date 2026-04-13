@@ -4,6 +4,7 @@ import { Loader } from "./components/common/Loader";
 import { useAuth } from "./context/AuthContext";
 import { AppShell } from "./components/layout/AppShell";
 import { ExplorePage } from "./pages/ExplorePage";
+import { EditProfilePage } from "./pages/EditProfilePage";
 import { FeedPage } from "./pages/FeedPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="messages" element={<MessagesPage />} />
         <Route path="profile">
           <Route index element={<ProfilePage />} />
+          <Route path="edit" element={<EditProfilePage />} />
           <Route path=":username" element={<ProfilePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

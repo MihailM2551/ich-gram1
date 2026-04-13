@@ -3,12 +3,11 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { messagesApi, usersApi } from "../api/services";
 import { useAuth } from "../context/AuthContext";
 import { formatCompactNumber } from "../lib/format";
-import type { AppShellOutletContext, AuthenticatedUser, ProfilePayload } from "../types";
+import type { AppShellOutletContext, ProfilePayload } from "../types";
 import { EmptyState } from "../components/common/EmptyState";
 import { Loader } from "../components/common/Loader";
 import { resolveAvatarSrc } from "../components/common/Avatar";
 import { PostDetailModal } from "../components/feed/PostDetailModal";
-import { EditProfileModal } from "../components/profile/EditProfileModal";
 import type { Post } from "../types";
 
 const profileLinks = ["Home", "Search", "Explore", "Messages", "Notifications", "Create"];
@@ -16,11 +15,10 @@ const profileLinks = ["Home", "Search", "Explore", "Messages", "Notifications", 
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { refreshKey, requestRefresh } = useOutletContext<AppShellOutletContext>();
   const [profile, setProfile] = useState<ProfilePayload | null>(null);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const [messageLoading, setMessageLoading] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -78,23 +76,6 @@ export const ProfilePage = () => {
     }
   };
 
-  const handleProfileUpdated = (updatedUser: AuthenticatedUser) => {
-    setUser(updatedUser);
-    setProfile((current) =>
-      current
-        ? {
-            ...current,
-            user: {
-              ...current.user,
-              ...updatedUser,
-            },
-          }
-        : current,
-    );
-    setEditing(false);
-    requestRefresh();
-  };
-
   const handlePostChange = (updatedPost: Post) => {
     setProfile((current) =>
       current
@@ -124,6 +105,8 @@ export const ProfilePage = () => {
   const displayName =
     profile.user.fullName && profile.user.fullName !== profile.user.username ? profile.user.fullName : "";
   const bioLines = (profile.user.bio || "").split("\n").map((line) => line.trim()).filter(Boolean);
+  const website = profile.user.website?.trim();
+  const websiteHref = website ? (/^https?:\/\//.test(website) ? website : `https://${website}`) : "";
 
   return (
     <section className="pb-12">
@@ -148,7 +131,7 @@ export const ProfilePage = () => {
               {ownProfile ? (
                 <button
                   type="button"
-                  onClick={() => setEditing(true)}
+                  onClick={() => navigate("/profile/edit")}
                   className="inline-flex h-[32px] min-w-[140px] items-center justify-center rounded-[8px] bg-[#efefef] px-4 text-[14px] font-semibold text-[#262626] transition hover:bg-[#e2e2e2]"
                 >
                   Edit profile
@@ -199,6 +182,11 @@ export const ProfilePage = () => {
               ) : (
                 <p className="text-[#8e8e8e]">No bio yet.</p>
               )}
+              {website ? (
+                <a href={websiteHref} target="_blank" rel="noreferrer" className="font-semibold text-[#00376b]">
+                  {website}
+                </a>
+              ) : null}
             </div>
           </div>
         </div>
@@ -243,16 +231,6 @@ export const ProfilePage = () => {
           <p className="mt-6">© 2024 ICHgram</p>
         </footer>
       </div>
-
-      {user ? (
-        <EditProfileModal
-          open={editing}
-          user={user}
-          onClose={() => setEditing(false)}
-          onUpdated={handleProfileUpdated}
-        />
-      ) : null}
-
       <PostDetailModal post={selectedPost} onClose={() => setSelectedPost(null)} onChange={handlePostChange} />
     </section>
   );

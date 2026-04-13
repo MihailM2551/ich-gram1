@@ -1,0 +1,26 @@
+﻿# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Builds
+frontend/dist/
+backend/dist/
+
+# Environment files
+.env
+.env.*
+frontend/.env
+frontend/.env.*
+backend/.env
+backend/.env.*
+
+# Uploads and generated files
+backend/uploads/
+*.tsbuildinfo
+
+# OS / editor
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -55,11 +55,7 @@ export const ExplorePage = () => {
   return (
     <section className="space-y-6">
       <div className="glass-panel rounded-[2rem] border border-white/70 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.08)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">Inspiration</p>
         <h1 className="mt-2 text-3xl font-semibold text-neutral-950">Explore</h1>
-        <p className="mt-3 text-sm leading-6 text-neutral-500">
-          Real images from the database, arranged in an explore grid.
-        </p>
       </div>
 
       <div className="masonry-grid">

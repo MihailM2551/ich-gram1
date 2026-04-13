@@ -49,16 +49,12 @@ export const SearchPage = () => {
     <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr),320px]">
       <div className="space-y-6">
         <div className="glass-panel rounded-[2rem] border border-white/70 p-6 shadow-[0_18px_55px_rgba(15,23,42,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">Discovery</p>
           <h1 className="mt-2 text-3xl font-semibold text-neutral-950">Search</h1>
-          <p className="mt-3 text-sm leading-6 text-neutral-500">
-            Real-time search with debounce, powered directly by the database.
-          </p>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search by username or name"
-            className="mt-5 w-full rounded-[1.5rem] border border-neutral-200 bg-white/80 px-5 py-4 text-sm outline-none focus:border-neutral-900"
+            className="mt-4 w-full rounded-[1.5rem] border border-neutral-200 bg-white/80 px-5 py-4 text-sm outline-none focus:border-neutral-900"
           />
         </div>
 

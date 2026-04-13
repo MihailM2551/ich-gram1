@@ -75,11 +75,7 @@ export const CreatePostComposer = ({ open, onClose, onCreated }: CreatePostCompo
       <div className="w-full max-w-3xl rounded-[2rem] bg-white p-5 shadow-[0_24px_80px_rgba(15,23,42,0.26)] md:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">Create</p>
-            <h2 className="mt-2 text-3xl font-semibold text-neutral-950">Create a new post</h2>
-            <p className="mt-2 text-sm text-neutral-500">
-              Your image is uploaded to cloud storage and then saved in the database.
-            </p>
+            <h2 className="text-3xl font-semibold text-neutral-950">Create a new post</h2>
           </div>
           <button type="button" onClick={onClose} className="rounded-full bg-neutral-100 p-2 text-neutral-500">
             <X size={18} />
@@ -94,7 +90,6 @@ export const CreatePostComposer = ({ open, onClose, onCreated }: CreatePostCompo
               <>
                 <ImagePlus size={36} className="text-neutral-500" />
                 <p className="mt-4 text-base font-semibold text-neutral-900">Choose an image</p>
-                <p className="mt-2 text-sm text-neutral-500">JPEG, PNG or WebP. No local storage on the server.</p>
               </>
             )}
             <input

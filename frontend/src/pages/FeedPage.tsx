@@ -93,7 +93,7 @@ export const FeedPage = () => {
       ) : (
         <EmptyState
           title="No posts yet"
-          description="Create the first real post from the app and it will appear here from the backend feed."
+          description="Share your first post to get started."
           actionLabel="Create post"
           onAction={openComposer}
         />

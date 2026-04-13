@@ -89,7 +89,7 @@ export const ConversationList = ({
               ) : null}
             </div>
           ) : (
-            <p className="text-[13px] text-[#8e8e8e]">Type a username to start a real conversation.</p>
+            <p className="text-[13px] text-[#8e8e8e]">Type a username to start a conversation.</p>
           )}
         </div>
       ) : null}
@@ -128,7 +128,7 @@ export const ConversationList = ({
         <div className="px-6 py-8">
           <p className="text-[14px] font-medium text-[#262626]">No messages yet</p>
           <p className="mt-2 max-w-[240px] text-[13px] leading-5 text-[#8e8e8e]">
-            Open a new chat and the conversation will be stored in the database for real users.
+            Open a new chat to start messaging.
           </p>
         </div>
       ) : null}

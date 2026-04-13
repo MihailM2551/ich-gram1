@@ -51,7 +51,7 @@ export const ChatWindow = ({
           </div>
           <h2 className="mt-6 text-[22px] font-semibold text-[#262626]">Your messages</h2>
           <p className="mt-3 text-[14px] leading-6 text-[#8e8e8e]">
-            Select a conversation or start a new chat with a real user from your database.
+            Select a conversation or start a new chat.
           </p>
         </div>
       </div>

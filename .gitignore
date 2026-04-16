@@ -24,3 +24,6 @@ backend/uploads/
 .idea/
 .DS_Store
 Thumbs.db
+!frontend/.env.example
+!backend/.env.example
+

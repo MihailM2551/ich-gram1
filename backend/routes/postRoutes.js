@@ -15,9 +15,11 @@ const {
   deleteComment,
 } = require('../controllers/postController');
 
+const uploadsPath = path.resolve(process.env.UPLOADS_DIR || path.join(__dirname, '..', 'uploads'));
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, path.join(__dirname, '..', 'uploads'));
+    cb(null, uploadsPath);
   },
   filename: (_req, file, cb) => {
     cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname)}`);
@@ -41,7 +43,7 @@ router.get('/search', protect, async (req, res) => {
 
     return res.json(users);
   } catch (_error) {
-    return res.status(500).json({ message: 'Eroare la căutare' });
+    return res.status(500).json({ message: 'Search failed' });
   }
 });
 
@@ -54,7 +56,7 @@ router.get('/notifications', protect, async (req, res) => {
 
     return res.json(notifications);
   } catch (_error) {
-    return res.status(500).json({ message: 'Eroare la notificări' });
+    return res.status(500).json({ message: 'Failed to load notifications' });
   }
 });
 
@@ -68,5 +70,3 @@ router.post('/:id/comments', protect, addComment);
 router.delete('/:postId/comments/:commentId', protect, deleteComment);
 
 module.exports = router;
-
-
